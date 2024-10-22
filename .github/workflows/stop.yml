@@ -15,15 +15,7 @@ jobs:
         with:
           node-version: "lts/*"
 
-      - name: Cache node modules
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: ./node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('README.md') }}
-
-      - if: steps.cache.outputs.cache-hit == 'false'
-        name: Install Apidog CLI
+      - name: Install Apidog CLI
         run: npm install apidog-cli
 
       - name: Running Test Scenario
