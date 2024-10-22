@@ -16,7 +16,7 @@ jobs:
           node-version: "lts/*"
 
       - name: Install Apidog CLI
-        run: npm install apidog-cli
+        run: npm install -g apidog-cli
 
       - name: Running Test Scenario
         run: apidog run --access-token ${{ secrets.APIDOG_ACCESS_TOKEN }} -t 784783 -e 2355339 -n 1 --delay-request 3000 -r html,cli
