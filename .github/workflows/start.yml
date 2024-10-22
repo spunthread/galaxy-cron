@@ -21,7 +21,7 @@ jobs:
         run: npm install -g apidog-cli
 
       - name: Running Test Scenario
-        run: apidog run --access-token ${{ secrets.APIDOG_ACCESS_TOKEN }} -t 784776 -e 2355339 -n 1 --delay-request 5000 -r html,cli --output-dir reports/${{ env.timestamp }}
+        run: apidog run --access-token ${{ secrets.APIDOG_ACCESS_TOKEN }} -t 784776 -e 2355339 -n 1 --delay-request 5000 -r html,cli --out-dir reports/${{ env.timestamp }}
 
       - name: Configure Git
         run: |
