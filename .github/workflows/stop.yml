@@ -1,0 +1,30 @@
+name: Stop API Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('README.md') }}
+
+      - if: steps.cache.outputs.cache-hit == 'false'
+        name: Install Apidog CLI
+        run: npm install apidog-cli
+
+      - name: Running Test Scenario
+        run: apidog run --access-token ${{ secrets.APIDOG_ACCESS_TOKEN }} -t 784783 -e 2355339 -n 1 --delay-request 3000 -r html,cli
