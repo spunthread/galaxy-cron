@@ -13,7 +13,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: gh-pages
-          if_no_matching_branches: create
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
