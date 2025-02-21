@@ -1,0 +1,50 @@
+- name: Create directory if it doesn't exist
+  run: mkdir -p dir_name
+
+- name: Run the curl command and save the response
+  run: |
+    curl -X POST "https://teacoffee.dreamsinternational.in/order" \
+    -H "Content-Type: application/json" \
+    -d '{"name": "Sayantan", "item": "coffee", "quantity": "1"}' \
+    -o dir_name/response.txt
+
+
+name: Daily API Request
+
+on:
+  schedule:
+    - cron: '0 5,10 * * *'  # Run every day at 10 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  request-and-store:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Run the curl command and save the response
+        run: |
+          curl -X POST "https://teacoffee.dreamsinternational.in/order" \
+          -H "Content-Type: application/json" \
+          -d '{"name": "Sayantan", "item": "coffee", "quantity": "1"}' \
+          -o response.txt
+
+      - name: Setup Git to commit changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Create/Update index.http file in gh-pages branch
+        run: |
+          # Create gh-pages branch if not exists
+          git checkout -b gh-pages || git checkout gh-pages
+          
+          # Move response.txt to index.http
+          mv response.txt index.http
+
+          # Stage, commit, and push the changes
+          git add index.http
+          git commit -m "Update HTTP response"
+          git push origin gh-pages
