@@ -1,4 +1,4 @@
-name: Order Coffee
+name: Order Coffee 
 
 on:
   workflow_dispatch:
@@ -12,11 +12,13 @@ jobs:
         with:
           ref: gh-pages
 
-      - name: Install Apidog CLI
-        run: npm install -g apidog-cli
-
-      - name: Running Test Scenario
-        run: apidog run --access-token ${{ secrets.APIDOG_ACCESS_TOKEN }} -t 784783 -e 2355339 -n 1 --delay-request 5000 -r html,json --out-dir reports/$(date +%Y-%m-%d_%H:%M:%S) --out-file index
+- name: Run the curl command and save the response
+  run: |
+    curl -X POST "https://teacoffee.dreamsinternational.in/order" \
+    -H "Content-Type: application/json" \
+    -d '{"name": "Sayantan", "item": "coffee", "quantity": "1"}' \
+    -D dir_name/header.http \
+    -o dir_name/body.json
 
       - name: Configure Git
         run: |
