@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  request:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
           curl -X POST "https://teacoffee.dreamsinternational.in/order" \
           -H "Content-Type: application/json" \
           -d '{"name": "Sayantan", "item": "coffee", "quantity": "1"}' \
-          -D coffee/${TIMESTAMP}_header.http \
+          -D coffee/${TIMESTAMP}_header.txt \
           -o coffee/${TIMESTAMP}_body.json
 
       - name: Configure Git
@@ -35,15 +35,15 @@ jobs:
       - name: Generate Directory Listings
         uses: jayanta525/github-pages-directory-listing@v4.0.0
         with:
-          FOLDER: coffee
+          FOLDER: ./
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: coffee/
+          path: ./
 
   deploy:
-    needs: request
+    needs: build
     permissions:
       pages: write
       id-token: write
