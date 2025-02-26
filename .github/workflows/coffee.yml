@@ -43,7 +43,7 @@ jobs:
           path: coffee/
 
   deploy:
-    needs: build
+    needs: request
     permissions:
       pages: write
       id-token: write
