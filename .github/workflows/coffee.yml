@@ -1,4 +1,4 @@
-name: Order Coffee 
+name: Order Coffee
 
 on:
   workflow_dispatch:
@@ -12,13 +12,14 @@ jobs:
         with:
           ref: gh-pages
 
-- name: Run the curl command and save the response
-  run: |
-    curl -X POST "https://teacoffee.dreamsinternational.in/order" \
-    -H "Content-Type: application/json" \
-    -d '{"name": "Sayantan", "item": "coffee", "quantity": "1"}' \
-    -D dir_name/header.http \
-    -o dir_name/body.json
+      - name: Run the curl command and save the response
+        run: |
+          TIMESTAMP=$(date +"%Y-%m-%d_%H:%M:%S")
+          curl -X POST "https://teacoffee.dreamsinternational.in/order" \
+          -H "Content-Type: application/json" \
+          -d '{"name": "Sayantan", "item": "coffee", "quantity": "1"}' \
+          -D coffee/${TIMESTAMP}_header.http \
+          -o coffee/${TIMESTAMP}_body.json
 
       - name: Configure Git
         run: |
@@ -27,19 +28,19 @@ jobs:
 
       - name: Commit and Push Reports
         run: |
-          git add reports/
-          git commit -m "Add API test reports from automated run of Stop Tests" || echo "No changes to commit"
+          git add coffee/
+          git commit -m "Add coffee API results from automated run of Order Coffee" || echo "No changes to commit"
           git push origin HEAD:gh-pages
 
       - name: Generate Directory Listings
         uses: jayanta525/github-pages-directory-listing@v4.0.0
         with:
-          FOLDER: reports
+          FOLDER: coffee
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: reports/
+          path: coffee/
 
   deploy:
     needs: build
