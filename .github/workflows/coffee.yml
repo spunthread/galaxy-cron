@@ -1,8 +1,6 @@
 name: Order Coffee
 
 on:
-  schedule:
-    - cron: '0 5,10 * * *'  # Run every day at 10 AM UTC
   workflow_dispatch:
 
 jobs:
