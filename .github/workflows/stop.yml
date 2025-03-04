@@ -1,8 +1,6 @@
 name: Stop API Test
 
 on:
-  schedule:
-    - cron: "14 14 * * 1-6"
   workflow_dispatch:
 
 jobs:

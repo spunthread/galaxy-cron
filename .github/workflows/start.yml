@@ -1,8 +1,6 @@
 name: Start API Test
 
 on:
-  schedule:
-    - cron: "4 5 * * 1-6"
   workflow_dispatch:
 
 jobs:
